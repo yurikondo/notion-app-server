@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const CryptoJS = require("crypto-js");
 const JWT = require("jsonwebtoken");
 const User = require("./src/v1/models/user");
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const app = express();
 const PORT = 4000;
 require("dotenv").config();
@@ -39,6 +39,16 @@ app.post(
       }
     });
   }),
+
+  //express-validatorのvalidationResultでエラー文をerrorsに入れる
+  (req, res, next) => {
+    const errors = validationResult(req);
+    //もしエラーが空じゃなかったら
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
 
   async (req, res) => {
     //パスワードの受け取り
