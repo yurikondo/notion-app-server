@@ -1,13 +1,13 @@
 const express = require("express");
 const router = require("express").Router();
-const { body, validationResult } = require("express-validator");
-const CryptoJS = require("crypto-js");
-const JWT = require("jsonwebtoken");
-const User = require("../models/user");
+const { body } = require("express-validator");
 require("dotenv").config();
 
-const app = express();
+const User = require("../models/user");
+const validation = require("../handlers/validation");
+const userController = require("../controllers/user");
 
+const app = express();
 
 //ユーザー新規登録API
 router.post(
@@ -32,39 +32,11 @@ router.post(
     });
   }),
 
-  //express-validatorのvalidationResultでエラー文をerrorsに入れる
-  (req, res, next) => {
-    const errors = validationResult(req);
-    //もしエラーが空じゃなかったら
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    next();
-  },
+  //エラー文をerrorsに入れる
+  validation.validate,
 
-  async (req, res) => {
-    //パスワードの受け取り
-    const password = req.body.password;
-
-    try {
-      //パスワードの暗号化
-      req.body.password = CryptoJS.AES.encrypt(
-        password,
-        process.env.SECRET_KEY
-      );
-      //ユーザーの新規作成
-      const user = await User.create(req.body);
-      //JWT発行
-      const token = JWT.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
-        expiresIn: "24h",
-      });
-      return res.status(200).json({ user, token });
-    } catch (err) {
-      return res.status(500).json(`エラー👉` + err);
-    }
-  }
+  //パスワードの暗号化・ユーザーの新規作成・JWT発行
+  userController.register
 );
-
-//ユーザーログイン用API
 
 module.exports = router;
