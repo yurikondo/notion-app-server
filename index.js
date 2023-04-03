@@ -21,6 +21,7 @@ try {
 app.post(
   "/register",
 
+  //express-validatorでバリデーション処理
   body("username")
     .isLength({ min: 8 })
     .withMessage("ユーザー名は8文字以上である必要があります"),
@@ -30,6 +31,14 @@ app.post(
   body("comfirmPassword")
     .isLength({ min: 8 })
     .withMessage("確認用パスワードは8文字以上である必要があります"),
+  //DBにすでに同じユーザー名が登録されていないか確認
+  body("username").custom((value) => {
+    return User.findOne({ username: value }).then((user) => {
+      if (user) {
+        return Promise.reject("このユーザー名はすでに使われています");
+      }
+    });
+  }),
 
   async (req, res) => {
     //パスワードの受け取り
