@@ -28,7 +28,7 @@ exports.login = async (req, res) => {
 
   try {
     //DBからユーザーが存在するか探してくる
-    const user = await User.fondOne({ username: username });
+    const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(401).json({
         errors: {
@@ -39,6 +39,27 @@ exports.login = async (req, res) => {
     }
 
     //パスワードが合っているか照合する
+    //パスワードの複号化
+    const decryptedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      process.env.SECRET_KEY
+      //復号したパスワードを文字列として認識させる
+    ).toString(CryptoJS.enc.Utf8);
+
+    if (decryptedPassword !== password) {
+      return res.status(401).json({
+        errors: {
+          param: "password",
+          message: "パスワードが無効です",
+        },
+      });
+    }
+
+    //JWTを発行
+    const token = JWT.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
+      expiresIn: "24h",
+    });
+    return res.status(200).json({ user, token });
   } catch (err) {
     return res.status(500).json(`エラー👉` + err);
   }

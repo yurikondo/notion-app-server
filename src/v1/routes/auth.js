@@ -50,7 +50,9 @@ router.post(
     .withMessage("パスワードは8文字以上である必要があります"),
 
   //エラー文をerrorsに入れる
-  validation.validate
+  validation.validate,
+  //DBからユーザーが存在するか探してくる・パスワードが合っているか照合(複号化)・JWT発行
+  userController.login
 );
 
 module.exports = router;
