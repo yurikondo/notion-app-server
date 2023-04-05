@@ -23,3 +23,23 @@ exports.register = async (req, res) => {
 };
 
 //ユーザーログイン用API
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    //DBからユーザーが存在するか探してくる
+    const user = await User.fondOne({ username: username });
+    if (!user) {
+      return res.status(401).json({
+        errors: {
+          param: "username",
+          message: "ユーザー名が無効です",
+        },
+      });
+    }
+
+    //パスワードが合っているか照合する
+  } catch (err) {
+    return res.status(500).json(`エラー👉` + err);
+  }
+};
