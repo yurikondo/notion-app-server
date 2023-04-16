@@ -8,6 +8,7 @@ const tokenDecode = (req) => {
   if (bearerHeader) {
     const bearer = bearerHeader.split(" ")[1];
     try {
+      //verify関数でデコード(https://www.npmjs.com/package/jsonwebtoken)
       const decodedToken = JWT.verify(bearer, process.env.TOKEN_SECRET_KEY);
       return decodedToken;
     } catch (err) {
@@ -25,11 +26,11 @@ exports.verifyToken = async (req, res, next) => {
     //そのJWTと一致するユーザーを探してくる
     const user = await User.findById(tokenDecoded.id);
     if (!user) {
-      return res.status(401).json("権限がありません❌");
+      return res.status(401).json("権限がありません❌");//401 不許可
     }
     req.user = user;
     next();
   } else {
-    return res.status(401).json("権限がありません❌");
+    return res.status(401).json("権限がありません❌");//401 不許可
   }
 };

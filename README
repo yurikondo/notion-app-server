@@ -1,0 +1,31 @@
+#実装手順
+##Section2
+8-9 サーバー構築
+
+10 解説  Notionユーザー管理の流れを理解してみよう
+11 MongoDBを作成
+12 mongooseをインストール、ユーザーモデルを作成
+13 mongooseでMongoDBに接続
+14 dotenvをインストール、パスワードを隠す
+
+15 解説 ユーザー新規登録API作成の流れ
+16-18 受け取ったパスワードをCryptJSで暗号化し、MongoDBに保存
+
+18 解説 JWTってなに？どの場面で使うの？（トークン＝暗号化された文字列）
+19 JWTを発行
+20 Postmanインストール
+21 PostmanでAPIテスト(user register)
+22 express-validatorでバリデーション設定(文字数とエラーメッセージ)
+23 express-validatorでバリデーション設定(ユーザー名がすでに登録されているか確認)
+24 express-validatorのvalidationResultでエラー文をerrorsに入れる
+25 PostmanでAPIテスト(user register)
+26 リファクタリング(ユーザー登録APIをauth.jsへ)
+27 リファクタリング(24をhandlers/validation.jsへ、ユーザー新規登録APIをcontrollers/user.jsへ)
+
+28 ログイン用APIを作成(ユーザー名が存在するか確認)
+29 ログイン用APIを作成(パスワードが合っているか確認)
+30 PostmanでAPIテスト(user login)
+
+31 解説 JWT認証APIってなに？
+32-34 クライアントから渡されたJWTが正常か認証
+35 PostmanでAPIテスト(verify token)

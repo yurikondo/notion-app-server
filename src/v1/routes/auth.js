@@ -1,4 +1,3 @@
-const express = require("express");
 const router = require("express").Router();
 const { body } = require("express-validator");
 require("dotenv").config();
@@ -8,23 +7,21 @@ const validation = require("../handlers/validation");
 const userController = require("../controllers/user");
 const tokenHandler = require("../handlers/tokenHandler");
 
-const app = express();
-
 //ユーザー新規登録API
 router.post(
   "/register",
 
-  //express-validatorでバリデーション処理
+  //express-validatorでバリデーション処理(https://express-validator.github.io/docs/6.14.0/)
   body("username")
     .isLength({ min: 8 })
     .withMessage("ユーザー名は8文字以上である必要があります"),
   body("password")
     .isLength({ min: 8 })
     .withMessage("パスワードは8文字以上である必要があります"),
-  body("comfirmPassword")
+  body("confirmPassword")
     .isLength({ min: 8 })
     .withMessage("確認用パスワードは8文字以上である必要があります"),
-  //DBにすでに同じユーザー名が登録されていないか確認
+  //DBにすでに同じユーザー名が登録されていないか確認(https://express-validator.github.io/docs/6.14.0/custom-error-messages#custom-validator-level)
   body("username").custom((value) => {
     return User.findOne({ username: value }).then((user) => {
       if (user) {
@@ -52,6 +49,7 @@ router.post(
 
   //エラー文をerrorsに入れる
   validation.validate,
+
   //DBからユーザーが存在するか探してくる・パスワードが合っているか照合(複号化)・JWT発行
   userController.login
 );

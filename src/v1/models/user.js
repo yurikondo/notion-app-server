@@ -1,3 +1,4 @@
+//モデルの作成（https://mongoosejs.com/docs/models.html#compiling）
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
