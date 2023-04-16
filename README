@@ -29,3 +29,7 @@
 31 解説 JWT認証APIってなに？
 32-34 クライアントから渡されたJWTが正常か認証
 35 PostmanでAPIテスト(verify token)
+
+
+51. CORSエラーを回避する方法
+52. APIを叩くときに404 not foundになったときの対処方法

@@ -13,7 +13,8 @@ app.use(
 );
 app.use(express.json());
 //auth.jsにアクセスするときは/api/v1をつける
-app.use("/api/v1", require("./src/v1/routes/auth"));
+//routesディレクトリのindex.jsファイルを見る
+app.use("/api/v1", require("./src/v1/routes"));
 
 //DB接続(https://mongoosejs.com/docs/connections.html)
 try {
