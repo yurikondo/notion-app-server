@@ -21,7 +21,7 @@ try {
   mongoose.connect(process.env.MONGODB_URL);
   console.log("DBと接続中🚀");
 } catch (err) {
-  console.log(`エラー👉` + err);
+  console.log(err);
 }
 
 app.listen(PORT, () => {

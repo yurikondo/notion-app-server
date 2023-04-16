@@ -18,7 +18,7 @@ exports.register = async (req, res) => {
     });
     return res.status(200).json({ user, token });
   } catch (err) {
-    return res.status(500).json(`エラー👉` + err);//500 サーバーエラー
+    return res.status(500).json(err); //500 サーバーエラー
   }
 };
 
@@ -30,11 +30,14 @@ exports.login = async (req, res) => {
     //DBからユーザーが存在するか探してくる
     const user = await User.findOne({ username: username });
     if (!user) {
-      return res.status(401).json({//401 不許可
-        errors: {
-          param: "username",
-          message: "ユーザー名が無効です",
-        },
+      return res.status(401).json({
+        //401 不許可
+        errors: [
+          {
+            param: "username",
+            msg: "ユーザー名が無効です",
+          },
+        ],
       });
     }
 
@@ -47,11 +50,14 @@ exports.login = async (req, res) => {
     ).toString(CryptoJS.enc.Utf8);
 
     if (decryptedPassword !== password) {
-      return res.status(401).json({//401 不許可
-        errors: {
-          param: "password",
-          message: "パスワードが無効です",
-        },
+      return res.status(401).json({
+        //401 不許可
+        errors: [
+          {
+            param: "password",
+            msg: "パスワードが無効です",
+          },
+        ],
       });
     }
 
@@ -59,8 +65,8 @@ exports.login = async (req, res) => {
     const token = JWT.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
       expiresIn: "24h",
     });
-    return res.status(201).json({ user, token });//201 ログイン成功
+    return res.status(201).json({ user, token }); //201 ログイン成功
   } catch (err) {
-    return res.status(500).json(`エラー👉` + err);//500 サーバーエラー
+    return res.status(500).json(err); //500 サーバーエラー
   }
 };
