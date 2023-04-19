@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const memoSchema = new mongoose.Schema({
   //user情報と連携
   user: {
-    type: mongoose.Schema.Type.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
