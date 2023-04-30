@@ -14,3 +14,13 @@ exports.create = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
+exports.getAll = async (req, res) => {
+  try {
+    //ログインしているユーザーのメモのを全て新規順に取得
+    const memos = await Memo.find({user: req.user._id}).sort("-position");
+    return res.status(200).json(memos);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
