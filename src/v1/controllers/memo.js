@@ -26,10 +26,10 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getOne = async (req, res) => {
+  const { memoId } = req.params;
   try {
-    const { memoId } = req.params;
     //メモの内容を取得
-    const memo = Memo.findOne({ user: req.user._id, _id: memoId });
+    const memo = await Memo.findOne({ user: req.user._id, _id: memoId });
     if (!memo) return res.status(404).json("メモが存在しません❌");
     return res.status(200).json(memo);
   } catch (err) {
