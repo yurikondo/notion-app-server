@@ -11,4 +11,7 @@ router.get("/", tokenHandler.verifyToken, memoController.getAll);
 //ログインしているユーザーが投稿したメモを１つ取得
 router.get("/:memoId", tokenHandler.verifyToken, memoController.getOne);
 
+//ログインしているユーザーが投稿したメモを１つ更新
+router.put("/:memoId", tokenHandler.verifyToken, memoController.update);
+
 module.exports = router;

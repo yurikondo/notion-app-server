@@ -36,3 +36,25 @@ exports.getOne = async (req, res) => {
     return res.status(500).json(err);
   }
 };
+
+exports.update = async (req, res) => {
+  const { memoId } = req.params;
+  const { title, description } = req.body;
+  try {
+    if (title === "") req.body.title = "無題";
+    if (description === "") req.body.description = "自由に記入してください";
+
+    //メモの内容を取得
+    const memo = await Memo.findOne({ user: req.user._id, _id: memoId });
+    if (!memo) return res.status(404).json("メモが存在しません❌");
+
+    const updatedMemo = await Memo.findByIdAndUpdate(memoId, {
+      // 全ての項目を更新
+      $set: req.body,
+    });
+
+    return res.status(200).json(updatedMemo);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
