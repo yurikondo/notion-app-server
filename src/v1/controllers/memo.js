@@ -26,6 +26,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getOne = async (req, res) => {
+  // URLのパラメーターを取得
   const { memoId } = req.params;
   try {
     //メモの内容を取得
@@ -38,6 +39,7 @@ exports.getOne = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  // URLのパラメーターを取得
   const { memoId } = req.params;
   const { title, description } = req.body;
   try {
@@ -60,6 +62,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
+  // URLのパラメーターを取得
   const { memoId } = req.params;
   try {
     //メモの内容を取得

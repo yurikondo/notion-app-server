@@ -2,7 +2,7 @@ const JWT = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
 
-//クライアントから渡されたJWTが正常か認証
+//クライアントから渡されたJWTが正常か認証する関数
 const tokenDecode = (req) => {
   const bearerHeader = req.headers["authorization"];
   if (bearerHeader) {

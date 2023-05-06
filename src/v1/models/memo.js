@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 const memoSchema = new mongoose.Schema({
-  //user情報と連携
+  //user情報と連携（typeとrefはセットで記述）
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

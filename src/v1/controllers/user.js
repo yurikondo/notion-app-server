@@ -13,6 +13,7 @@ exports.register = async (req, res) => {
     //ユーザーの新規作成(https://mongoosejs.com/docs/models.html#constructing-documents)
     const user = await User.create(req.body);
     //JWT発行・ユーザーIDをエンコード(https://www.npmjs.com/package/jsonwebtoken)
+    //JWT.sign()の第一引数は暗号化したい文字、第二引数はシークレットキー、第三引数はオプション設定
     const token = JWT.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
       expiresIn: "24h",
     });
@@ -62,6 +63,7 @@ exports.login = async (req, res) => {
     }
 
     //JWTを発行(https://www.npmjs.com/package/jsonwebtoken)
+    //JWT.sign()の第一引数は暗号化したい文字、第二引数はシークレットキー、第三引数はオプション設定　
     const token = JWT.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
       expiresIn: "24h",
     });

@@ -6,6 +6,7 @@ exports.validate = (req, res, next) => {
   const errors = validationResult(req);
   //もしエラーが空じゃなかったら
   if (!errors.isEmpty()) {
+    //array() メソッドはExpress-validatorライブラリで提供されている、バリデーションエラーの配列を取得するための関数
     return res.status(400).json({ errors: errors.array() });
   }
   next();
